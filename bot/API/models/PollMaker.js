@@ -43,7 +43,6 @@ const PollMaker  = (pollName, pollDescription, fields, options = {}) => {
 
     const awaitReaction = async (msg) => {
         const collector = msg.createReactionCollector(isEmoteAllowed,  {time: 15000, dispose:true})
-        //options.customEvent ?? options.customEvent(collector, msg, options.args, allowedEmojis.slice(0,i))
         collector.on('collect', async (reaction, user)=>{
             if(voted[user.username] == undefined) {
                 voted[user.username] = reaction.emoji.toString()
@@ -58,10 +57,9 @@ const PollMaker  = (pollName, pollDescription, fields, options = {}) => {
         })
 
         collector.on('remove',(reaction, user) => {
-            console.log('dispose')
             voted.delete(user.username)
             if(options.event.onRemove) {
-                options.event.onRemove.function(options.event.onCollect.args, msg, reaction, allowedEmojis.slice(0,i), user)
+                options.event.onRemove.function(options.event.onRemove.args, msg, reaction, allowedEmojis.slice(0,i), user)
             }
         })
 
