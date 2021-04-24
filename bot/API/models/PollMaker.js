@@ -1,4 +1,6 @@
 const DiscordBot = require('./DiscordBot.js')
+const utils = require('../Utils/')
+
 
 const PollMaker  = (pollName, pollDescription, fields, options = {}) => {
     const discordBot = new DiscordBot()
@@ -52,19 +54,23 @@ const PollMaker  = (pollName, pollDescription, fields, options = {}) => {
                 voted[user.username] = reaction.emoji.toString()
             }
             if(options.event.onCollect) {
-                options.event.onCollect.function(options.event.onCollect.args, msg, reaction, allowedEmojis.slice(0,i), user)
+                utils[options.event.onCollect.function](options.event.onCollect.args, msg, reaction, allowedEmojis.slice(0,i), user)
             }
         })
 
         collector.on('remove',(reaction, user) => {
             voted.delete(user.username)
             if(options.event.onRemove) {
-                options.event.onRemove.function(options.event.onRemove.args, msg, reaction, allowedEmojis.slice(0,i), user)
+                utils[options.event.onRemove.function](options.event.onRemove.args, msg, reaction, allowedEmojis.slice(0,i), user)
             }
         })
 
         collector.on('end', collection => {
-            showResult(collection)
+            if(options.event.onRemove) {
+                utils[options.event.onEnd?.function](options.event.onEnd.args, allowedEmojis.slice(0,i))
+            }else {
+                showResult(collection)
+            }
         })
     }
 

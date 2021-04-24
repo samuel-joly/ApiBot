@@ -1,4 +1,3 @@
-//const db = require('monk')(process.env.DB_HOST)
 //const fs = require('fs')
 const discord = require('discord.js')
 
@@ -22,7 +21,7 @@ class DiscordBot {
         for (const folder of commandFolds) {
             const commandFiles = fs.readdirSync(`./${folder}`.filter(file=>file.endsWith('.js')))
             for(const file of commandFiles) {
-                const command = require(`./BotCommands/${file}`)
+                const command = require(`../BotCommands/${file}`)
                 this.client.commands.set(command.name, command)
             }
         }

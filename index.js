@@ -4,11 +4,11 @@ const express = require('express');
 
 const app = express()
 app.use(express.json())
-const port = 3000;
 
-
-app.listen(port, () => {
-    console.log('listenening to http:/localhost:'+process.env.PORT);
+const port = process.env.PORT;
+const host = process.env.HOST
+app.listen(port,host, () => {
+    console.log('listenening to http://'+host+':'+port);
 })
 
 app.get('/', (req, res) => {
