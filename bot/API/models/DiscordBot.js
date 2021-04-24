@@ -1,4 +1,4 @@
-//const fs = require('fs')
+const fs = require('fs')
 const discord = require('discord.js')
 
 class DiscordBot {
@@ -8,8 +8,9 @@ class DiscordBot {
         this.collection = new discord.Collection()
         this.token = process.env.BOT_TOKEN
         this.prefix = process.env.BOT_PREFIX
+        this.client.commands = new discord.Collection()
 
-        //this.setCommand()
+        this.setCommand()
     }
 
     login() {
@@ -17,11 +18,11 @@ class DiscordBot {
     }
 
     setCommand() {
-        const commandFolds = fs.readdirSync('./BotCommands')
+        const commandFolds = fs.readdirSync('bot/API/models/BotCommands')
         for (const folder of commandFolds) {
-            const commandFiles = fs.readdirSync(`./${folder}`.filter(file=>file.endsWith('.js')))
+            const commandFiles = fs.readdirSync(`bot/API/models/BotCommands/${folder}`)
             for(const file of commandFiles) {
-                const command = require(`../BotCommands/${file}`)
+                const command = require(`./BotCommands/${folder}/${file}`)
                 this.client.commands.set(command.name, command)
             }
         }
@@ -29,18 +30,18 @@ class DiscordBot {
 
     exec(message) {
         const args = this.getArgs(message)
-        const command = args.shift().toLowerCase()
-        
+        const command = args.shift()
+
         if(!this.client.commands.has(command)) return
-        
+
         try {
-            client.commands.get(command).execute(message, args)
+            this.client.commands.get(command).execute(message, args)
         } catch (err){
             console.log(err)
         }
     }
 
-    getArg(message) {
+    getArgs(message) {
         return message.content.slice(this.prefix.length).trim().split(' ')
     }
 

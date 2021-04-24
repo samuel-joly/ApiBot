@@ -8,6 +8,7 @@ exports.setRoleAtVote = async function setRoleAtVote(roles, message, reaction, a
                 await discordUser.roles.remove(discordUser.roles.cache.find(userRole => userRole.name == role)).catch(()=>{})
             }
         }
+        console.log(message.guild.roles.cache.find(roleFilter))
         await discordUser.roles.add(message.guild.roles.cache.find(roleFilter)).catch((e) => console.log("err add", e))
     }
 

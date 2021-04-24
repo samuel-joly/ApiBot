@@ -1,4 +1,5 @@
 require('custom-env').env('dev')
+require('./bot/init_bot.js')
 const {discordBot} = require('./controllers/')
 const express = require('express');
 

@@ -66,8 +66,8 @@ const PollMaker  = (pollName, pollDescription, fields, options = {}) => {
         })
 
         collector.on('end', collection => {
-            if(options.event.onRemove) {
-                utils[options.event.onEnd?.function](options.event.onEnd.args, allowedEmojis.slice(0,i))
+            if(options.event.onEnd) {
+                utils[options.event.onEnd.function](options.event.onEnd.args, allowedEmojis.slice(0,i))
             }else {
                 showResult(collection)
             }
