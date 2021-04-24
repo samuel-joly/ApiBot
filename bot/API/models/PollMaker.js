@@ -18,6 +18,7 @@ const PollMaker  = (pollName, pollDescription, fields, options = {}) => {
               '8⃣',
               '9⃣',
           ]
+    const endEmoji = options.customEndEmoji ?? '❌'
     let i = 0
     const listEmojis = []
     for(const field of fields) {
@@ -44,7 +45,7 @@ const PollMaker  = (pollName, pollDescription, fields, options = {}) => {
     }
 
     const awaitReaction = async (msg) => {
-        const collector = msg.createReactionCollector(isEmoteAllowed,  {time: 15000, dispose:true})
+        const collector = msg.createReactionCollector(isEmoteAllowed,  {time:options.timer*1000 ?? 15000, dispose:true})
         collector.on('collect', async (reaction, user)=>{
             if(voted[user.username] == undefined) {
                 voted[user.username] = reaction.emoji.toString()
@@ -69,7 +70,10 @@ const PollMaker  = (pollName, pollDescription, fields, options = {}) => {
             if(options.event.onEnd) {
                 utils[options.event.onEnd.function](options.event.onEnd.args, allowedEmojis.slice(0,i))
             }else {
-                showResult(collection)
+                if(!options.noEndDisplay) {
+                    showResult(collection)
+                }
+                setEndEmoji(msg)
             }
         })
     }
@@ -100,8 +104,13 @@ const PollMaker  = (pollName, pollDescription, fields, options = {}) => {
         const endPoll = new discordBot.discord.MessageEmbed()
                                       .setTitle(`Fin du vote ${pollName}`)
                                       .addFields(...results)
-        client.channels.cache.get(options.channel ?? process.env.BOT_CHANNEL).send(endPoll)
+        client.channels.cache.get(options.channel ?? process.env.BOT_CHANNEL_TEST).send(endPoll)
     }
+
+    const setEndEmoji = async (msg) => {
+        await msg.react(endEmoji)
+    }
+
     discordBot.login()
 
 }

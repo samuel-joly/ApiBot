@@ -1,7 +1,7 @@
 const {PollMaker} = require('../../')
-const purpose = "Réagissez pour obtenir le role de votre promos.\n**Ce vote se termine dans 30 secondes**"
+const purpose = "Réagissez pour obtenir le role de votre promos.\n**Ce vote se termine dans 30 secondes avec l'emote ❌**"
 const pollName = "Choisissez un role"
-const votesOption = ["Web Premiere année", "Web Deuxieme année", "Web Troixieme année", "IA", "Sécurité"]
+const votesOption = ["Web 09/2019", "Web 06/2020", "Web 03/2021", "IA", "Sécurité"]
 const pollArgs = {
     channel:process.env.BOT_CHANNEL,
     customEmojis: [
@@ -19,8 +19,10 @@ const pollArgs = {
         "onRemove":{
             "function":"removeRoleAtUnvote",
             "args":["Web 09/2019", "Web 06/2020", "Web 03/2021", "IA", "Sécurité"]
-        }
-    }
+        },
+    },
+    "noEndDisplay":true,
+    "timer":30
 }
 
 module.exports = {
@@ -29,6 +31,5 @@ module.exports = {
     args:false,
     execute:(message) => {
         PollMaker(pollName, purpose, votesOption, pollArgs)
-        console.log('executed')
     }
 }
