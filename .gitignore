@@ -3,4 +3,3 @@
 *.log
 tmp/
 .env.dev
-node_modules
