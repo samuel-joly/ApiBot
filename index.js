@@ -20,9 +20,6 @@ app.get('/', (req, res) => {
 
 app.post('/hookers', (req, res) => {
     console.log(req.body);
-    console.log("commit test");
-
-	
 });
 
 app.use('/discord', discordBot)
