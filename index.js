@@ -18,4 +18,9 @@ app.get('/', (req, res) => {
     })
 })
 
+app.get('/hookers', (req, res) => {
+	console.log(req.body)
+	
+});
+
 app.use('/discord', discordBot)
