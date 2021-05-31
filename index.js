@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.post('/hookers', (req, res) => {
     console.log(req.body);
+	//should not be here
 });
 
 app.use('/discord', discordBot)
