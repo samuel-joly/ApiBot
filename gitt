@@ -1,6 +1,0 @@
-#!/bin/bash
-
-echo "< " >> hooktest.txt
-git add hooktest.txt
-git commit -m "hook on push test"
-git push origin prod
